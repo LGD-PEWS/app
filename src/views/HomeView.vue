@@ -1,5 +1,6 @@
 <template>
   <el-button-group>
+    <el-button type="primary" @click="callAdd()">测试按钮</el-button>s
     <el-button type="primary" @click="initTable()">初始化表</el-button>
     <el-button type="primary" @click="insertData()">添加数据</el-button>
     <el-button type="primary" @click="deleteData()">删除数据</el-button>
@@ -21,6 +22,9 @@
 import { ref, onMounted } from "vue";
 import Database from "@tauri-apps/plugin-sql";
 
+// import { invoke } from "@tauri-apps/api";
+import { invoke } from "@tauri-apps/api/core";
+
 const formInline = ref({
   userId: null,
   name: "",
@@ -31,6 +35,34 @@ onMounted(async () => {
   // tableData.value = await queryAuth();
 });
 
+const result = ref();
+// 调用加法
+const callAdd = async () => {
+  console.log("?", invoke);
+  // invoke('call_python_function');
+  invoke('my_custom_command');
+  // try {
+  //   const response: any = await invoke("call_python_function", {
+  //     input: { function: "add", args: [3, 5] },
+  //   });
+  //   result.value = response.result; // 8
+  // } catch (error) {
+  //   console.error("调用失败:", error);
+  //   result.value = "错误: " + error;
+  // }
+};
+
+// const test = async () => {
+//   try {
+//     const command = await exec("_create_tables", [
+//       "../../python/rust.py",
+//     ]);
+//     console.log(command.stdout); // 获取 Python 输出
+//   } catch (error) {
+//     console.error("Error:", error);
+//   }
+// };
+//
 const insertData = async () => {
   console.log("增");
   await insertAuth(formInline.value.userId, formInline.value.name);
